@@ -1,0 +1,167 @@
+  _                _____ _______   __  __  ____  _____ _____ ______ _____ ______ _____     
+ | |        /\    / ____|__   __| |  \/  |/ __ \|  __ \_   _|  ____|_   _|  ____|  __ \ _  
+ | |       /  \  | (___    | |    | \  / | |  | | |  | || | | |__    | | | |__  | |  | (_) 
+ | |      / /\ \  \___ \   | |    | |\/| | |  | | |  | || | |  __|   | | |  __| | |  | |   
+ | |____ / ____ \ ____) |  | |    | |  | | |__| | |__| || |_| |     _| |_| |____| |__| |_  
+ |______/_/    \_\_____/ __|_|    |_|__|_|\____/|_____/_____|_|    |_____|______|_____/(_) 
+                   |__ \| ____|  / / _ \| ____|  / /__ \|___ \                             
+                      ) | |__   / / | | | |__   / /   ) | __) |                            
+                     / /|___ \ / /| | | |___ \ / /   / / |__ <                             
+                    / /_ ___) / / | |_| |___) / /   / /_ ___) |                            
+                   |____|____/_/   \___/|____/_/   |____|____/                             
+                                                                                           
+                                                                                           
+REQUIREMENTS:                                                                              
+                                                                                           
+astropy                 5.1.1                                                              
+matplotlib              3.6.1                                                              
+mpi4py                  3.1.3                                                              
+numba                   0.57.0                                                             
+numpy                   1.23.4                                                             
+scipy                   1.9.3                                                              
+sympy                   1.11.1                                                             
+                                                                                           
+yt: https://yt-project.org/                                                                
+Open MPI 4.0.3 (or newer)/Make sure to install mpi4py after installing openmpi/mpich       
+                                                                                           
+   _____ _______ ______ _____    __                                                        
+  / ____|__   __|  ____|  __ \  /_ |_                                                      
+ | (___    | |  | |__  | |__) |  | (_)                                                     
+  \___ \   | |  |  __| |  ___/   | |                                                       
+  ____) |  | |  | |____| |       | |_                                                      
+ |_____/   |_|  |______|_|       |_(_)                                                     
+                                                                                           
+                                                                                           
+     With yt activated run "export_sim.py" to read your chemodynamical simulation          
+     and export physical conditions: Change lines 91 - 99 to suit your chemical network.   
+     Additionally change mean-molecular weight (amu) to suit your chemical network.        
+     If your dynamical simulations do not include a chemical network, modification of      
+     this script is required to assume some number density for a molecule under            
+     consideration (mol).                                                                  
+                                                                                           
+     If you have your own scripts for exporting data from your dynamical simulations       
+     then feel free to comment out lines 90-946. You should export (1. density [cm^-3],    
+     2. velocity-x/y/z [cm/s] 3. temperature [K], 4. molecular number density [cm^-3],     
+     5. x/y/z [cm] 6. dimensionality/"ndims" [] & 7. Bx/By/Bz [G] (for GK only)) in *.npy  
+                                                                                           
+     A 2D simulation from Tritsis + (2023) is included for quickstart                      
+                                                                                           
+     Change keywords in the beginning of the file to suit your needs. Description of       
+     relevant parameters is given in the beginning of "export_sim.py".                     
+                                                                                           
+     After running the script a new file called "detailedBalEqs" is created. Copy the      
+     equations into "populations" (lines 157-173 for the fiducial case or lines 443-473    
+     if you are running a simulation for the GK effect).                                   
+                                                                                           
+                                                                                           
+   _____ _______ ______ _____    ___                                                       
+  / ____|__   __|  ____|  __ \  |__ \ _                                                    
+ | (___    | |  | |__  | |__) |    ) (_)                                                   
+  \___ \   | |  |  __| |  ___/    / /                                                      
+  ____) |  | |  | |____| |       / /_ _                                                    
+ |_____/   |_|  |______|_|      |____(_)                                                   
+                                                                                           
+                                                                                           
+     Change keywords in the beginning of "setup.py" to suit your needs. Description of     
+     relevant parameters is given in the beginning of script.                              
+                                                                                           
+     Run the code, e.g.: mpirun -np 4 ipython main.py                                      
+                                                                                           
+                                                                                           
+   _____ _______ ______ _____    ____                                                      
+  / ____|__   __|  ____|  __ \  |___ \ _                                                   
+ | (___    | |  | |__  | |__) |   __) (_)                                                  
+  \___ \   | |  |  __| |  ___/   |__ <                                                     
+  ____) |  | |  | |____| |       ___) |_                                                   
+ |_____/   |_|  |______|_|      |____/(_)                                                  
+                                                                                           
+                                                                                           
+     A new folder is created containing the results:                                       
+        1. Mock Position-Position-Velocity cube (PPV.npy)                                  
+        2. Optical depth of the line (TLINE.npy)                                           
+        3. Population densities (LevPops.npy)                                              
+                                                                                           
+        4. In the case of a simulation for the GK effect another Mock                      
+           Position-Position-Velocity cube is created for the radiation polarized //       
+           to the magnetic field (PPVParal.npy). In this case PPV.npy represents the       
+           radiation polarized _|_ to the field.                                           
+                                                                                           
+                                                                                           
+   _____ _______ ______ _____    _  _                                                      
+  / ____|__   __|  ____|  __ \  | || |  _                                                  
+ | (___    | |  | |__  | |__) | | || |_(_)                                                 
+  \___ \   | |  |  __| |  ___/  |__   _|                                                   
+  ____) |  | |  | |____| |         | |  _                                                  
+ |_____/   |_|  |______|_|         |_| (_)                                                 
+                                                                                           
+                                                                                           
+     If you have run a simulation with "line = False" (see "setup.py"); that is a true     
+     PPV cube instead of single line run "postprocess.py" to create a fits file with       
+     your results where you can add noise, convolve the spectral/spatial resolution with   
+     gaussian kernel etc.                                                                  
+                                                                                           
+     Change keywords in the beginning of postprocess.py to suit your needs. Description    
+     of relevant parameters is given in the beginning of script.                           
+                                                                                           
+                                                                                           
+                            _           _    _____      _     _                            
+     /\                     | |         | |  / ____|    (_)   | |                          
+    /  \   ___ ___ ___ _ __ | |_ ___  __| | | |  __ _ __ _  __| |___                       
+   / /\ \ / __/ __/ _ \ '_ \| __/ _ \/ _` | | | |_ | '__| |/ _` / __|                      
+  / ____ \ (_| (_|  __/ |_) | ||  __/ (_| | | |__| | |  | | (_| \__ \                      
+ /_/    \_\___\___\___| .__/ \__\___|\__,_|  \_____|_|  |_|\__,_|___/                      
+                      | |                                                                  
+                      |_|                                                                  
+                                                                                           
+      1.) Spherical:                                                                       
+                        0                   r_max                                          
+                         [][][][][][][][][][][]                                            
+                                                                                           
+          and the final grid is:                                                           
+                                                                                           
+               -r_max                                      r_max                           
+                  [][][][][][][][][][][][][][][][][][][][][][]                             
+                                                                                           
+      2.) Cylindrical:                                                                     
+                                                                                           
+                z                                       z                                  
+                ^                                       ^                                  
+                |                                       |                                  
+                |[][][][][][][][][][]            OR     |[][][][][][][][][][]              
+                |[][][][][][][][][][]                   |[][][][][][][][][][]              
+                |[][][][][][][][][][]                   |[][][][][][][][][][]              
+                ------------------------->  r           |------------------------->  r     
+                                                        |[][][][][][][][][][]              
+                                                        |[][][][][][][][][][]              
+                                                        |[][][][][][][][][][]              
+                                                        |                                  
+                                                                                           
+                                                                                           
+                                                                                           
+          and the final grid is:          z                                                
+                                          ^                                                
+                                          |                                                
+                                          |                                                
+                      [][][][][][][][][][]|[][][][][][][][][][]                            
+                      [][][][][][][][][][]|[][][][][][][][][][]                            
+                      [][][][][][][][][][]|[][][][][][][][][][]                            
+                   ----------------------------------------------->  r                     
+                      [][][][][][][][][][]|[][][][][][][][][][]                            
+                      [][][][][][][][][][]|[][][][][][][][][][]                            
+                      [][][][][][][][][][]|[][][][][][][][][][]                            
+                                          |                                                
+                                          |                                                
+                                                                                           
+      3.) Cartesian:                                                                       
+                                                                                           
+                  No symmetries                                                            
+                                                                                           
+                                                                                           
+  ______       _                                                                           
+ |  ____|     (_)                                                                          
+ | |__   _ __  _  ___  _   _            Happy to help if you run into problems             
+ |  __| | '_ \| |/ _ \| | | |                  (aris.tritsis@epfl.ch)                      
+ | |____| | | | | (_) | |_| |                                                              
+ |______|_| |_| |\___/ \__, |                                                              
+             _/ |       __/ |                                                              
+            |__/       |___/                                                               
