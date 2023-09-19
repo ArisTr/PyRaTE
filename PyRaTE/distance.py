@@ -139,7 +139,7 @@ def distance(rayvec, InitPoint, x, y, z, vx, vy, vz, fcall, Bx, By, Bz, GK): #
 		                                                             #
 		k = np.argmin(np.absolute(np.round(cellfaces[2] - InitPoint[2], -10)))
 		                                                             #
-		PointMinusFace = np.array([cellfaces[0, j], cellfaces[1, i], cellfaces[2, k]])
+		PointMinusFace = np.array([cellfaces[0][j], cellfaces[1][i], cellfaces[2][k]])
 		                                                             #
 	PointPlusFace = PointMinusFace + np.array([dy, dx, dz])              #
 	                                                                     #
@@ -179,11 +179,11 @@ def distance(rayvec, InitPoint, x, y, z, vx, vy, vz, fcall, Bx, By, Bz, GK): #
 	vVec = np.array([vy[j, i, k], vx[j, i, k], vz[j, i, k]])             #
 	                                                                     #
 	#  $$   Perform a vector projection of vVec onto unitvector   $$     #
-	vLOS = np.dot(vVec, rayvec) * rayvec                                 #
+	vmLOS = np.dot(vVec, rayvec)                                         #
 	                                                                     #
-	vmLOS = np.sqrt(np.dot(vLOS, vLOS))                                  #
+	vLOS = vmLOS * rayvec                                                #
 	                                                                     #
-	pnangle = np.round(np.degrees(np.arccos(np.dot(vLOS, rayvec)/ vmLOS ) ))
+	pnangle = np.round(np.degrees(np.arccos( np.round( np.dot(vLOS, rayvec)/ vmLOS, 2) ) ))
 	                                                                     #
 	if pnangle == 0.:                                                    #
 		                                                             #
