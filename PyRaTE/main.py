@@ -830,9 +830,9 @@ else:                                                                     #
 	#* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *#
 	for jrs in range (0, len(cpuRow)):                                #
 		                                                          #
-		yray = yy[jrs] + (z - z[0])/rayvec[2]*rayvec[0]           #
+		yray = cpuRow[jrs] + (z - z[0])/rayvec[2]*rayvec[0]       #
 		                                                          #
-		pr = pr + 1./len(chopped_ys)                              #
+		pr = pr + 1./len(yy)                                      #
 		                                                          #
 		if iproc==0: update_progress(pr)                          #
 		                                                          #
@@ -970,9 +970,9 @@ else:                                                                     #
 				                                          #
 				if GK: ILOSParal[f]=ItotalP               #
 			                                                  #
-			rows[i] = np.array(ILOS).astype(float)            #
+			rows[irs] = np.array(ILOS).astype(float)          #
 			                                                  #
-			if GK: rowsParal[i] = np.array(ILOSParal).astype(float)
+			if GK: rowsParal[irs] = np.array(ILOSParal).astype(float)
 			                                                  #
 		PPV.append(np.array(rows).astype(float))                  #
 		                                                          #
