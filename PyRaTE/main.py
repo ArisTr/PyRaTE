@@ -523,7 +523,7 @@ if line == False and ndims == 2 and fi0 == 90:                            #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 if iproc == 0:                                                            #
 	                                                                  #
-	if np.any(np.sum(onaxiscases - [ndims, fi0, th0], axis = 1) == 0.) or ndim == 2:
+	if np.any(np.sum(onaxiscases - [ndims, fi0, th0], axis = 1) == 0.) or ndims == 2:
 		                                                          #
 		dens, mol, vLOS, T, PopRat, nlow, LOSaxis, RowAxis, Blos = axisRearange.axisRearange(ndims, line, fi0, th0, dens, mol, vx, vy, vz, T, PopRat, nlow, x, y, z, Bx, By, Bz, GK)
 		                                                          #
@@ -576,18 +576,20 @@ if iproc == 0:                                                            #
 			if not np.any(np.sum(onaxiscases - [ndims, fi0, th0], axis = 1) == 0.):
 				                                          #
 				vx, Bx = vLOS, Blos                       #
+				                                          #
+				vz = vx.copy()                            #
 	                                                                  #
 else:                                                                     #
 	                                                                  #
 	dens, mol, vLOS, T, PopRat, nlow, LOSaxis, RowAxis, Blos, dist = None, None, None, None, None, None, None, None, None, None
 	                                                                  #
-	vx, vy, Bx, By, Bz = None, None, None, None, None                 #
+	vx, vy, vz, Bx, By, Bz = None, None, None, None, None, None       #
                                                                           #
 dens, mol, vLOS, T = comm.bcast(dens, root=0), comm.bcast(mol, root=0), comm.bcast(vLOS, root=0), comm.bcast(T, root=0)
                                                                           #
 PopRat, nlow, LOSaxis, RowAxis, Blos, dist = comm.bcast(PopRat, root=0), comm.bcast(nlow, root=0), comm.bcast(LOSaxis, root=0), comm.bcast(RowAxis, root=0), comm.bcast(Blos, root=0), comm.bcast(dist, root=0)
                                                                           #
-vx, vy, Bx, By, Bz = comm.bcast(vx, root=0), comm.bcast(vy, root=0), comm.bcast(Bx, root=0), comm.bcast(By, root=0), comm.bcast(Bz, root=0)
+vx, vy, vz, Bx, By, Bz = comm.bcast(vx, root=0), comm.bcast(vy, root=0), comm.bcast(vz, root=0), comm.bcast(Bx, root=0), comm.bcast(By, root=0), comm.bcast(Bz, root=0)
 #-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
 
 
@@ -767,14 +769,8 @@ else:                                                                     #
 		                                                          #
 		for k in range (0, len(z)):                               #
 			                                                  #
-			if ndims == 3:                                    #
-				                                          #
-				yray = y[j] + (z - z[k])/rayvec[2]*rayvec[0]
-				                                          #
-			else:                                             #
-				                                          #
-				yray = y[j] + (z - z[k])/rayvec[1]*rayvec[0]
-				                                          #
+			yray = y[j] + (z - z[k])/rayvec[2]*rayvec[0]      #
+			                                                  #
 			if np.max(yray) > maxY: maxY = np.max(yray)       #
 			                                                  #
 			if np.min(yray) < minY: minY = np.min(yray)       #
@@ -887,7 +883,7 @@ else:                                                                     #
 					#     point in cell InPoint       #
 					#* * * * * * * * * * * * * * * * *#
 					                                  #
-					densgp, Tgp, PopRatgp, nlowgp = dens[j, i, k], T[j, i, k], PopRat[j, i, k], nlow[j, i, k]
+					densgp, Tgp, PopRatgp, nlowgp, velb = dens[j, i, k], T[j, i, k], PopRat[j, i, k], nlow[j, i, k], vLOS
 					                                  #
 					Sline_b, LineAbs_b=sourcef.sourcef(frq, PopRatgp, nlowgp, EinBlu, grat, gam, jmjpmp, GK=False)
 					                                  #
