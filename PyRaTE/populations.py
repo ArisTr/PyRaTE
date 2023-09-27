@@ -173,6 +173,7 @@ def tauF(pds_a, Dtherm, densgp, mol, gul, vx, vy, vz, dx, dy, dz, index, i, k, n
 	                                                                     #
 	rtols = np.geomspace(1e-7, 5e-6, len(pds_a))                         #
 	                                                                     #
+	meanf = 0.25 if ndims == 2 else 0.16667                              #
 	#* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 	while (dummy==False):                                                #
 		                                                             #
@@ -240,7 +241,7 @@ def tauF(pds_a, Dtherm, densgp, mol, gul, vx, vy, vz, dx, dy, dz, index, i, k, n
 				                                             #
 			if mean:                                             #
 				                                             #
-				t_line.append(1./ ( 0.16667 * np.sum ([1./tlineXp, 1./tlineXm, 1./tlineYp, 1./tlineYm, 1./tlineZp, 1./tlineZm])))
+				t_line.append(1./ ( meanf * np.nansum ([1./tlineXp, 1./tlineXm, 1./tlineYp, 1./tlineYm, 1./tlineZp, 1./tlineZm])))
 				                                             #
 			else:                                                #
 				                                             #
